@@ -1,6 +1,7 @@
 import json
 import time
 import os
+import gzip
 from src.preprocessor import QuranPreprocessor
 
 def main():
@@ -10,12 +11,21 @@ def main():
 
     base_dir = os.path.dirname(os.path.abspath(__file__))
     raw_path = os.path.join(base_dir, 'data', 'quran_raw.json')
+    compressed_raw_path = raw_path + '.gz'
     output_path = os.path.join(base_dir, 'data', 'quran_dataset.json')
 
-    if not os.path.exists(raw_path):
-        raise FileNotFoundError(f"File {raw_path} tidak ditemukan.")
+    if os.path.exists(raw_path):
+        raw_file_path = raw_path
+        open_raw_file = open
+    elif os.path.exists(compressed_raw_path):
+        raw_file_path = compressed_raw_path
+        open_raw_file = gzip.open
+    else:
+        raise FileNotFoundError(
+            f"File {raw_path} atau {compressed_raw_path} tidak ditemukan."
+        )
 
-    with open(raw_path, 'r', encoding='utf-8') as f:
+    with open_raw_file(raw_file_path, 'rt', encoding='utf-8') as f:
         raw_data = json.load(f)
 
     # 1. Ekstraksi data mentah

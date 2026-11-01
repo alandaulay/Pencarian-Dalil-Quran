@@ -27,13 +27,13 @@ Aplikasi Temu Kembali Informasi (*Information Retrieval*) untuk mencari dalil ay
 
 ---
 
-## Struktur Direktori Proyek
+##  Struktur Direktori Proyek
 
 ```text
 pencarian-dalil-quran/
 │
 ├── data/
-│   ├── quran_raw.json           # Raw JSON Al-Qur'an (24 MB)
+│   ├── quran_raw.json.gz        # Raw JSON Al-Qur'an (Gzip)
 │   ├── quran_dataset.json       # Dataset bersih 6.236 ayat terindeks
 │   └── stem_cache.json          # Cache hasil stemming Sastrawi (5.600+ lema)
 │
@@ -53,7 +53,7 @@ pencarian-dalil-quran/
 
 ---
 
-## Panduan Menjalankan Aplikasi
+##  Panduan Menjalankan Aplikasi
 
 ### 1. Prasyarat Lingkungan
 Pastikan Python 3.9+ sudah terpasang. Dependensi yang dibutuhkan:
@@ -80,9 +80,16 @@ Untuk memeriksa hasil pencarian dan evaluasi secara cepat lewat terminal:
 python test_search.py
 ```
 
+### 5. Memperbarui Dataset
+Letakkan `quran_raw.json` atau `quran_raw.json.gz` di folder `data/`, lalu jalankan:
+```bash
+python run_preprocessing.py
+```
+Jika kedua file tersedia, skrip menggunakan `quran_raw.json`.
+
 ---
 
-## Hasil Evaluasi Model
+##  Hasil Evaluasi Model
 
 | Metrik Evaluasi | Nilai Rata-rata | Penjelasan Singkat |
 | :--- | :---: | :--- |
@@ -93,7 +100,7 @@ python test_search.py
 
 ---
 
-## Ringkasan 6 Pertanyaan Evaluasi Tugas
+##  Ringkasan 6 Pertanyaan Evaluasi Tugas
 
 1. **Relevansi Ranking:**  
    Metode VSM TF-IDF berhasil menempatkan ayat paling primer (seperti QS Al-Baqarah [2:183] untuk puasa) tepat di Rank 1 dengan skor Cosine Similarity tertinggi (0.6159), menghasilkan skor MRR sempurna 1.0.
